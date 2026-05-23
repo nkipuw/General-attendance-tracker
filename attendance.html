@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meeting Attendance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: #e0ddd6;
+    --text: #1a1917;
+    --muted: #6b6860;
+    --accent: #1a1917;
+    --accent-fg: #f5f4f0;
+    --green: #2d6a4f;
+    --green-bg: #e8f5ee;
+    --red: #9b2335;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --radius: 6px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* ── Layout ── */
+  .shell {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  header {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .wordmark-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .wordmark-title {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    font-family: var(--mono);
+  }
+
+  .meeting-name-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #meeting-name-display {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius);
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #meeting-name-display:hover { background: var(--surface2); }
+  #meeting-name-display svg { width: 13px; height: 13px; opacity: 0.5; }
+
+  #meeting-name-input {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    display: none;
+    width: 200px;
+  }
+  #meeting-name-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+    width: fit-content;
+  }
+
+  .tab {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  /* ── Organizer view ── */
+  .grid {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+  }
+
+  .card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* QR */
+  #qr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #qr-container {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    background: #fff;
+  }
+
+  #qr-container img, #qr-container canvas {
+    display: block !important;
+  }
+
+  .qr-instructions {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .stat {
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat-n {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Attendee list */
+  .attendee-list {
+    list-style: none;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  .attendee-list::-webkit-scrollbar { width: 4px; }
+  .attendee-list::-webkit-scrollbar-track { background: transparent; }
+  .attendee-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .att-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--surface2);
+    animation: fadeSlide 0.25s ease;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .att-row:last-child { border-bottom: none; }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .att-info { flex: 1; min-width: 0; }
+
+  .att-name {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .att-email {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .att-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .empty-state .icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+    opacity: 0.3;
+  }
+
+  /* Buttons */
+  button {
+    font-family: var(--sans);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn:active { transform: scale(0.98); }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { opacity: 0.88; }
+
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  .btn-full { width: 100%; justify-content: center; }
+
+  /* ── Check-in form ── */
+  .checkin-wrap {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .checkin-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .checkin-heading {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .checkin-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .field { margin-bottom: 1rem; }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-family: var(--mono);
+  }
+
+  .field input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+
+  .field input:focus {
+    outline: none;
+    border-color: var(--text);
+  }
+
+  .field input::placeholder { color: #b0ae a8; }
+
+  .success-banner {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    padding: 12px 14px;
+    background: var(--green-bg);
+    border: 1px solid #a8d5b8;
+    border-radius: var(--radius);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 500;
+    animation: fadeSlide 0.3s ease;
+  }
+
+  .already-banner {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    padding: 12px 14px;
+    background: #fef3e2;
+    border: 1px solid #f5c97a;
+    border-radius: var(--radius);
+    color: #7a4f00;
+    font-size: 13px;
+    animation: fadeSlide 0.3s ease;
+  }
+
+  /* ── Reset / footer ── */
+  .org-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .danger-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--red);
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-weight: 500;
+  }
+  .danger-btn:hover { background: #fdf0f0; border-color: var(--red); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="wordmark">
+      <span class="wordmark-label">Attendance tracker</span>
+      <span class="wordmark-title" id="page-title">Meeting</span>
+    </div>
+    <div class="meeting-name-wrap">
+      <div id="meeting-name-display" onclick="editMeetingName()" title="Click to rename">
+        <span id="meeting-name-text">Untitled meeting</span>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 2l3 3-8 8H3v-3l8-8z"/></svg>
+      </div>
+      <input id="meeting-name-input" type="text" placeholder="Meeting name…" onblur="saveMeetingName()" onkeydown="if(event.key==='Enter') saveMeetingName()" />
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('organizer')">Organizer</button>
+    <button class="tab" onclick="switchTab('checkin')">Check-in</button>
+  </div>
+
+  <!-- Organizer -->
+  <div class="view active" id="view-organizer">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div class="card-label">QR code</div>
+          <div id="qr-box">
+            <div id="qr-container"></div>
+            <p class="qr-instructions">Display or print this code.<br>Attendees scan → check-in tab opens.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="card-label">Summary</div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-n" id="cnt-total">0</div>
+              <div class="stat-lbl">Check-ins</div>
+            </div>
+            <div class="stat">
+              <div class="stat-n" id="cnt-unique">0</div>
+              <div class="stat-lbl">Unique</div>
+            </div>
+            <div class="stat">
+              <div class="stat-n" id="cnt-recent">0</div>
+              <div class="stat-lbl">Last 5 min</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Attendees</div>
+          <ul class="attendee-list" id="attendee-list">
+            <li class="empty-state">
+              <div class="icon">□</div>
+              No check-ins yet
+            </li>
+          </ul>
+          <div class="org-actions">
+            <button class="btn btn-sm" onclick="exportCSV()">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10v4h12v-4M8 2v8M5 7l3 3 3-3"/></svg>
+              Export CSV
+            </button>
+            <button class="danger-btn" onclick="confirmReset()">Clear all</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Check-in -->
+  <div class="view" id="view-checkin">
+    <div class="checkin-wrap">
+      <div class="checkin-card">
+        <h2 class="checkin-heading" id="checkin-meeting-title">Check in</h2>
+        <p class="checkin-sub">Enter your details to mark your attendance.</p>
+
+        <div class="field">
+          <label for="inp-name">Full name</label>
+          <input type="text" id="inp-name" placeholder="Jane Smith" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="inp-email">Email</label>
+          <input type="email" id="inp-email" placeholder="jane@example.com" autocomplete="email" />
+        </div>
+
+        <button class="btn btn-primary btn-full" onclick="submitCheckin()">Mark me as attended</button>
+
+        <div class="success-banner" id="success-banner">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg>
+          You're checked in!
+        </div>
+        <div class="already-banner" id="already-banner">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3M8 10.5v.5"/></svg>
+          You've already checked in with this email.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Attendance data stored locally in this browser &nbsp;·&nbsp; <span id="footer-date"></span></footer>
+</div>
+
+<script>
+const STORAGE_KEY = 'attendance_v1';
+const NAME_KEY = 'attendance_meeting_name';
+
+let attendees = [];
+let meetingName = 'Untitled meeting';
+
+function load() {
+  try { attendees = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { attendees = []; }
+  meetingName = localStorage.getItem(NAME_KEY) || 'Untitled meeting';
+  updateMeetingNameUI();
+  render();
+}
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(attendees));
+}
+
+function updateMeetingNameUI() {
+  document.getElementById('meeting-name-text').textContent = meetingName;
+  document.getElementById('page-title').textContent = meetingName;
+  document.getElementById('checkin-meeting-title').textContent = 'Check in — ' + meetingName;
+  document.title = meetingName + ' · Attendance';
+}
+
+function editMeetingName() {
+  const disp = document.getElementById('meeting-name-display');
+  const inp  = document.getElementById('meeting-name-input');
+  disp.style.display = 'none';
+  inp.style.display = 'block';
+  inp.value = meetingName;
+  inp.focus();
+}
+
+function saveMeetingName() {
+  const inp = document.getElementById('meeting-name-input');
+  const val = inp.value.trim();
+  if (val) meetingName = val;
+  localStorage.setItem(NAME_KEY, meetingName);
+  document.getElementById('meeting-name-display').style.display = 'flex';
+  inp.style.display = 'none';
+  updateMeetingNameUI();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (tab==='organizer'?0:1)===i));
+  document.getElementById('view-organizer').classList.toggle('active', tab==='organizer');
+  document.getElementById('view-checkin').classList.toggle('active', tab==='checkin');
+}
+
+// Auto-switch to check-in if URL has ?checkin
+if (new URLSearchParams(window.location.search).has('checkin')) {
+  document.addEventListener('DOMContentLoaded', () => switchTab('checkin'));
+}
+
+function initQR() {
+  const container = document.getElementById('qr-container');
+  container.innerHTML = '';
+  const url = window.location.href.split('?')[0] + '?checkin';
+  if (typeof QRCode !== 'undefined') {
+    new QRCode(container, { text: url, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M });
+  } else {
+    container.textContent = 'QR library unavailable';
+  }
+}
+
+function getInitials(name) {
+  return name.trim().split(/\s+/).map(w => w[0] || '').join('').slice(0,2).toUpperCase();
+}
+
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function render() {
+  const list = document.getElementById('attendee-list');
+  const now = Date.now();
+  const recent = attendees.filter(a => now - new Date(a.time).getTime() < 5*60*1000).length;
+  const uniqueEmails = new Set(attendees.map(a => a.email.toLowerCase())).size;
+
+  document.getElementById('cnt-total').textContent  = attendees.length;
+  document.getElementById('cnt-unique').textContent = uniqueEmails;
+  document.getElementById('cnt-recent').textContent = recent;
+
+  if (!attendees.length) {
+    list.innerHTML = '<li class="empty-state"><div class="icon">□</div>No check-ins yet</li>';
+    return;
+  }
+
+  list.innerHTML = [...attendees].reverse().map(a => `
+    <li class="att-row">
+      <div class="avatar">${getInitials(a.name)}</div>
+      <div class="att-info">
+        <div class="att-name">${esc(a.name)}</div>
+        <div class="att-email">${esc(a.email)}</div>
+      </div>
+      <div class="att-time">${fmtTime(a.time)}</div>
+    </li>
+  `).join('');
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function submitCheckin() {
+  const name  = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email').value.trim().toLowerCase();
+  const sb = document.getElementById('success-banner');
+  const ab = document.getElementById('already-banner');
+  sb.style.display = 'none';
+  ab.style.display = 'none';
+
+  if (!name)  { document.getElementById('inp-name').focus();  return; }
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { document.getElementById('inp-email').focus(); return; }
+
+  const alreadyIn = attendees.some(a => a.email.toLowerCase() === email);
+  if (alreadyIn) {
+    ab.style.display = 'flex';
+    return;
+  }
+
+  attendees.push({ name, email, time: new Date().toISOString() });
+  save();
+  document.getElementById('inp-name').value  = '';
+  document.getElementById('inp-email').value = '';
+  sb.style.display = 'flex';
+  setTimeout(() => sb.style.display = 'none', 4000);
+  render();
+}
+
+function exportCSV() {
+  if (!attendees.length) { alert('No attendees to export yet.'); return; }
+  const rows = [
+    ['Name','Email','Time'],
+    ...attendees.map(a => [`"${a.name.replace(/"/g,'""')}"`, `"${a.email}"`, `"${new Date(a.time).toLocaleString()}"`])
+  ];
+  const csv = rows.map(r => r.join(',')).join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = (meetingName || 'attendance').replace(/\s+/g,'-').toLowerCase() + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function confirmReset() {
+  if (confirm('Delete all attendance records? This cannot be undone.')) {
+    attendees = [];
+    save();
+    render();
+  }
+}
+
+// Footer date
+document.getElementById('footer-date').textContent = new Date().toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+
+// Poll for new check-ins (useful if multiple devices share the same localStorage on a kiosk setup)
+setInterval(() => { load(); }, 10000);
+
+load();
+initQR();
+</script>
+</body>
+</html>
