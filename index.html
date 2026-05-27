@@ -293,7 +293,7 @@ let pollTimer   = null;
 
 /* ── Boot ── */
 function boot() {
-  scriptUrl   = localStorage.getItem(SCRIPT_URL_KEY) || '';
+  scriptUrl   = localStorage.getItem(SCRIPT_URL_KEY) || 'https://script.google.com/macros/s/AKfycbyQle7naGcyWLJRs4UPc5Enp8Mr1HS4kfl_CdPowmeeWF_nizYnAIRq5w4lSsNjTrPX/exec';
   meetingName = localStorage.getItem(NAME_KEY) || 'Untitled meeting';
   try { roster = JSON.parse(localStorage.getItem(ROSTER_KEY) || '[]'); } catch(e) { roster = []; }
   updateMeetingNameUI();
