@@ -60,7 +60,6 @@
   .attendee-list { list-style: none; max-height: 340px; overflow-y: auto; }
   .attendee-list::-webkit-scrollbar { width: 4px; }
   .attendee-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
   .att-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--surface2); animation: fadeSlide .25s ease; }
   @keyframes fadeSlide { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
   .att-row:last-child { border-bottom: none; }
@@ -95,7 +94,6 @@
   .danger-btn:hover { background: #fdf0f0; border-color: var(--red); }
   .org-actions { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; align-items: center; }
 
-  /* Setup banner */
   .setup-banner { background: var(--blue-bg); border: 1px solid #b3ccee; border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
   .setup-banner h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--blue); margin-bottom: 8px; }
   .setup-steps { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 10px; }
@@ -104,10 +102,8 @@
   .setup-steps code { font-family: var(--mono); font-size: 11px; background: rgba(26,79,138,.1); padding: 1px 5px; border-radius: 3px; }
   .url-row { display: flex; gap: 8px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
   .url-row input { flex: 1; min-width: 200px; font-family: var(--mono); font-size: 12px; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); }
-  .url-row input:focus { outline: none; border-color: var(--blue); }
   .connected-badge { font-family: var(--mono); font-size: 11px; color: var(--green); background: var(--green-bg); border: 1px solid var(--green-border); padding: 3px 9px; border-radius: 99px; }
 
-  /* Check-in form */
   .checkin-wrap { max-width: 420px; margin: 0 auto; }
   .checkin-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; }
   .checkin-heading { font-family: var(--mono); font-size: 18px; font-weight: 500; margin-bottom: 4px; letter-spacing: -.02em; }
@@ -117,11 +113,10 @@
   .field input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--sans); font-size: 14px; background: var(--surface); color: var(--text); transition: border-color .15s; }
   .field input:focus { outline: none; border-color: var(--text); }
   .member-hint { font-size: 12px; color: var(--green); font-family: var(--mono); margin-top: 4px; display: none; }
-  .success-banner { display: none; align-items: center; gap: 10px; margin-top: 1rem; padding: 12px 14px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: var(--radius); color: var(--green); font-size: 13px; font-weight: 500; animation: fadeSlide .3s ease; }
-  .already-banner { display: none; align-items: center; gap: 10px; margin-top: 1rem; padding: 12px 14px; background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: var(--radius); color: var(--amber); font-size: 13px; animation: fadeSlide .3s ease; }
-  .error-banner { display: none; align-items: center; gap: 10px; margin-top: 1rem; padding: 12px 14px; background: #fdf0f0; border: 1px solid #e8a0a0; border-radius: var(--radius); color: var(--red); font-size: 13px; animation: fadeSlide .3s ease; }
+  .success-banner { display: none; align-items: center; gap: 10px; margin-top: 1rem; padding: 12px 14px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: var(--radius); color: var(--green); font-size: 13px; font-weight: 500; }
+  .already-banner { display: none; align-items: center; gap: 10px; margin-top: 1rem; padding: 12px 14px; background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: var(--radius); color: var(--amber); font-size: 13px; }
+  .error-banner   { display: none; align-items: center; gap: 10px; margin-top: 1rem; padding: 12px 14px; background: #fdf0f0; border: 1px solid #e8a0a0; border-radius: var(--radius); color: var(--red); font-size: 13px; }
 
-  /* Roster tab */
   .roster-wrap { max-width: 640px; }
   .roster-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 16px; }
   .roster-card h3 { font-family: var(--mono); font-size: 14px; font-weight: 500; margin-bottom: 4px; }
@@ -129,7 +124,7 @@
   .roster-card textarea { width: 100%; height: 150px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--mono); font-size: 12px; background: var(--surface2); color: var(--text); resize: vertical; }
   .roster-card textarea:focus { outline: none; border-color: var(--text); }
   .roster-actions { display: flex; gap: 8px; margin-top: 10px; align-items: center; flex-wrap: wrap; }
-  .roster-status { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .roster-status { font-family: var(--mono); font-size: 11px; }
   .member-list-preview { list-style: none; margin-top: 1rem; max-height: 240px; overflow-y: auto; }
   .member-list-preview::-webkit-scrollbar { width: 4px; }
   .member-list-preview::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -165,16 +160,14 @@
     <button class="tab" onclick="switchTab('roster')">Roster</button>
   </div>
 
-  <!-- ── Organizer ── -->
+  <!-- Organizer -->
   <div class="view active" id="view-organizer">
-
-    <!-- Setup banner -->
     <div class="setup-banner" id="setup-banner">
-      <h3>⚡ One-time setup — connect to Google Sheets for real-time sync</h3>
+      <h3>⚡ One-time setup — connect Google Sheets for real-time sync</h3>
       <ol class="setup-steps">
         <li>Open <a href="https://sheets.google.com" target="_blank" style="color:var(--blue)">Google Sheets</a>, create a new blank spreadsheet.</li>
-        <li>Click <strong>Extensions → Apps Script</strong>. Delete the placeholder code, paste in the Apps Script code from the <strong>script.gs</strong> file provided alongside this HTML.</li>
-        <li>Click <strong>Save</strong>, then <strong>Deploy → New deployment</strong>. Set type to <code>Web app</code>, execute as <code>Me</code>, access <code>Anyone</code>. Click <strong>Deploy</strong> and authorise.</li>
+        <li>Click <strong>Extensions → Apps Script</strong>. Delete the placeholder, paste in the <code>script.gs</code> file provided with this HTML.</li>
+        <li>Click <strong>Deploy → New deployment</strong>. Type: <code>Web app</code>. Execute as: <code>Me</code>. Access: <code>Anyone</code>. Click Deploy and authorise.</li>
         <li>Copy the Web App URL and paste it below.</li>
       </ol>
       <div class="url-row">
@@ -194,7 +187,6 @@
           </div>
         </div>
       </div>
-
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div class="card">
           <div class="card-label" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
@@ -208,7 +200,6 @@
             <div class="stat absent" id="stat-absent-wrap" style="display:none;"><div class="stat-n" id="cnt-absent">0</div><div class="stat-lbl">Absent</div></div>
           </div>
         </div>
-
         <div class="card">
           <div class="list-header">
             <div class="card-label" style="margin-bottom:0;">Attendees</div>
@@ -233,7 +224,7 @@
     </div>
   </div>
 
-  <!-- ── Check-in ── -->
+  <!-- Check-in -->
   <div class="view" id="view-checkin">
     <div class="checkin-wrap">
       <div class="checkin-card">
@@ -259,13 +250,13 @@
         </div>
         <div class="error-banner" id="error-banner">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3M8 10.5v.5"/></svg>
-          Could not save — please try again.
+          <span id="error-msg">Could not save — please try again.</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── Roster ── -->
+  <!-- Roster -->
   <div class="view" id="view-roster">
     <div class="roster-wrap">
       <div class="roster-card">
@@ -289,11 +280,9 @@
 </div>
 
 <script>
-/* ── Config keys ── */
 const SCRIPT_URL_KEY = 'attendance_script_url';
 const NAME_KEY       = 'attendance_meeting_name';
 const ROSTER_KEY     = 'attendance_roster_v1';
-const CHECKIN_KEY    = 'attendance_checkin_email'; // remember if this device checked in
 
 let attendees   = [];
 let roster      = [];
@@ -301,27 +290,22 @@ let meetingName = 'Untitled meeting';
 let scriptUrl   = '';
 let listFilter  = 'all';
 let pollTimer   = null;
-let isLive      = false;
 
-/* ── Bootstrap ── */
+/* ── Boot ── */
 function boot() {
   scriptUrl   = localStorage.getItem(SCRIPT_URL_KEY) || '';
   meetingName = localStorage.getItem(NAME_KEY) || 'Untitled meeting';
   try { roster = JSON.parse(localStorage.getItem(ROSTER_KEY) || '[]'); } catch(e) { roster = []; }
-
   updateMeetingNameUI();
   renderRosterPreview();
   initQR();
-
   if (scriptUrl) {
     document.getElementById('setup-banner').style.display = 'none';
     document.getElementById('script-url-input').value = scriptUrl;
     document.getElementById('connected-badge').style.display = '';
     startPolling();
   }
-
   if (new URLSearchParams(window.location.search).has('checkin')) switchTab('checkin');
-
   document.getElementById('footer-date').textContent = new Date().toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
 }
 
@@ -348,11 +332,11 @@ function saveMeetingName() {
 /* ── Tabs ── */
 const TAB_IDS = ['organizer','checkin','roster'];
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', TAB_IDS[i] === tab));
-  TAB_IDS.forEach(id => document.getElementById('view-'+id).classList.toggle('active', id === tab));
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', TAB_IDS[i]===tab));
+  TAB_IDS.forEach(id => document.getElementById('view-'+id).classList.toggle('active', id===tab));
 }
 
-/* ── Script URL / connect ── */
+/* ── Script URL ── */
 function saveScriptUrl() {
   const val = document.getElementById('script-url-input').value.trim();
   if (!val.startsWith('https://script.google.com')) { alert('That doesn\'t look like a valid Apps Script URL.'); return; }
@@ -373,7 +357,7 @@ function initQR() {
   }
 }
 
-/* ── Polling (organizer) ── */
+/* ── Polling ── */
 function startPolling() {
   fetchAttendees();
   if (pollTimer) clearInterval(pollTimer);
@@ -385,27 +369,22 @@ async function fetchAttendees() {
   try {
     const res  = await fetch(scriptUrl + '?action=get', { cache: 'no-store' });
     const data = await res.json();
-    if (data.rows) {
+    if (Array.isArray(data.rows)) {
       attendees = data.rows.map(r => ({ name: r[0], email: r[1], time: r[2] }));
       setLive(true);
       render();
     }
-  } catch(e) {
-    setLive(false);
-  }
+  } catch(e) { setLive(false); }
 }
 
 function setLive(live) {
-  isLive = live;
   const el = document.getElementById('live-indicator');
-  if (live) {
-    el.innerHTML = '<span class="live-label"><span class="live-dot"></span>Live</span>';
-  } else {
-    el.innerHTML = '<span class="offline-label"><span class="offline-dot"></span>Offline</span>';
-  }
+  el.innerHTML = live
+    ? '<span class="live-label"><span class="live-dot"></span>Live</span>'
+    : '<span class="offline-label"><span class="offline-dot"></span>Offline</span>';
 }
 
-/* ── Check-in submission ── */
+/* ── Check-in ── */
 function onEmailInput() {
   const email = document.getElementById('inp-email').value.trim().toLowerCase();
   const hint  = document.getElementById('member-hint');
@@ -426,22 +405,20 @@ async function submitCheckin() {
   if (!name)  { document.getElementById('inp-name').focus(); return; }
 
   if (!scriptUrl) {
-    eb.querySelector('svg + *') && (eb.lastChild.textContent = '');
-    eb.innerHTML = eb.innerHTML; // reset
-    eb.style.display = 'flex';
-    eb.querySelector('svg').nextSibling.textContent = ' Setup not complete — ask the organizer to connect Google Sheets.';
-    return;
+    document.getElementById('error-msg').textContent = 'Setup not complete — ask the organiser to connect Google Sheets first.';
+    eb.style.display = 'flex'; return;
   }
 
   const btn = document.getElementById('checkin-btn');
   btn.disabled = true; btn.textContent = 'Saving…';
 
   try {
-    const res  = await fetch(scriptUrl, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'checkin', name, email, time: new Date().toISOString() })
-    });
-    const data = await res.json();
+    // Use URLSearchParams so the body is form-encoded (avoids CORS preflight)
+    const body = new URLSearchParams({ action:'checkin', name, email, time: new Date().toISOString() });
+    const res  = await fetch(scriptUrl, { method:'POST', body });
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e) { throw new Error('Bad response: ' + text.slice(0,100)); }
 
     if (data.status === 'duplicate') {
       ab.style.display = 'flex';
@@ -451,24 +428,27 @@ async function submitCheckin() {
       document.getElementById('member-hint').style.display = 'none';
       sb.style.display = 'flex';
       setTimeout(() => sb.style.display = 'none', 4000);
+      fetchAttendees(); // refresh organiser view immediately
     } else {
+      document.getElementById('error-msg').textContent = 'Could not save — please try again.';
       eb.style.display = 'flex';
     }
   } catch(e) {
+    document.getElementById('error-msg').textContent = 'Network error: ' + e.message;
     eb.style.display = 'flex';
   } finally {
     btn.disabled = false; btn.textContent = 'Mark me as attended';
   }
 }
 
-/* ── Render organizer list ── */
-function getInitials(name) { return name.trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,2).toUpperCase(); }
-function fmtTime(iso)      { return new Date(iso).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }); }
-function esc(s)            { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+/* ── Render ── */
+function getInitials(n) { return n.trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,2).toUpperCase(); }
+function fmtTime(iso)   { return new Date(iso).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }); }
+function esc(s)         { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function setFilter(f) {
   listFilter = f;
-  document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', ['all','present','absent'][i] === f));
+  document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', ['all','present','absent'][i]===f));
   render();
 }
 
@@ -478,25 +458,23 @@ function render() {
   const rMap = {};
   roster.forEach(m => { rMap[m.email.toLowerCase()] = m; });
   const now = Date.now();
-  const recent = attendees.filter(a => now - new Date(a.time).getTime() < 5*60*1000).length;
-  const uniqueEmails = new Set(attendees.map(a => a.email.toLowerCase())).size;
-  const absentCount = roster.filter(m => !checkedIn.has(m.email.toLowerCase())).length;
 
   document.getElementById('cnt-total').textContent  = attendees.length;
-  document.getElementById('cnt-unique').textContent = uniqueEmails;
-  document.getElementById('cnt-recent').textContent = recent;
+  document.getElementById('cnt-unique').textContent = new Set(attendees.map(a=>a.email.toLowerCase())).size;
+  document.getElementById('cnt-recent').textContent = attendees.filter(a => now - new Date(a.time).getTime() < 5*60*1000).length;
 
   const absentWrap = document.getElementById('stat-absent-wrap');
-  if (hasRoster) { absentWrap.style.display = ''; document.getElementById('cnt-absent').textContent = absentCount; }
-  else           { absentWrap.style.display = 'none'; }
+  if (hasRoster) {
+    absentWrap.style.display = '';
+    document.getElementById('cnt-absent').textContent = roster.filter(m => !checkedIn.has(m.email.toLowerCase())).length;
+  } else { absentWrap.style.display = 'none'; }
 
   document.getElementById('filter-tabs').style.display = hasRoster ? '' : 'none';
 
   let rows = [];
   if (hasRoster) {
     roster.forEach(m => {
-      const email = m.email.toLowerCase();
-      const att = attendees.find(a => a.email.toLowerCase() === email);
+      const att = attendees.find(a => a.email.toLowerCase() === m.email.toLowerCase());
       rows.push({ name: m.name, email: m.email, time: att ? att.time : null, present: !!att, inRoster: true });
     });
     attendees.forEach(a => {
@@ -520,14 +498,12 @@ function render() {
 
   const list = document.getElementById('attendee-list');
   if (!rows.length) { list.innerHTML = '<li class="empty-state"><div class="icon">□</div>No entries to show</li>'; return; }
-
   list.innerHTML = rows.map(r => {
     const walkin = r.present && !r.inRoster && hasRoster;
     return `<li class="att-row${!r.present?' absent-row':''}">
       <div class="avatar${!r.present?' absent-avatar':''}">${getInitials(r.name)}</div>
       <div class="att-info">
-        <div class="att-name">${esc(r.name)}${walkin?` <span style="font-size:10px;color:var(--muted);font-family:var(--mono);font-weight:400;">(walk-in)</span>`:''}
-        </div>
+        <div class="att-name">${esc(r.name)}${walkin?` <span style="font-size:10px;color:var(--muted);font-family:var(--mono);">(walk-in)</span>`:''}</div>
         <div class="att-email">${esc(r.email)}</div>
       </div>
       ${r.present
@@ -542,7 +518,7 @@ function importRoster() {
   const raw = document.getElementById('csv-input').value.trim();
   if (!raw) { setRStatus('Paste some data first.', true); return; }
   const lines = raw.split(/\r?\n/).filter(l => l.trim());
-  const parsed = []; const errors = [];
+  const parsed = [], errors = [];
   lines.forEach((line, idx) => {
     const parts = line.split(',').map(p => p.trim().replace(/^["']|["']$/g,''));
     if (idx === 0 && parts.some(p => /^(name|email|first|last)$/i.test(p))) return;
@@ -556,7 +532,7 @@ function importRoster() {
     } else {
       const ei = parts.findIndex(p => /\S+@\S+\.\S+/.test(p));
       if (ei === -1) { errors.push(idx+1); return; }
-      email = parts[ei]; name = parts.filter((_,i) => i !== ei).join(' ');
+      email = parts[ei]; name = parts.filter((_,i) => i!==ei).join(' ');
     }
     if (!name) name = email.split('@')[0];
     parsed.push({ name, email: email.toLowerCase() });
@@ -572,13 +548,13 @@ function importRoster() {
 
 function clearRoster() {
   if (!roster.length || confirm('Remove all roster members?')) {
-    roster = []; localStorage.setItem(ROSTER_KEY, '[]'); renderRosterPreview(); setRStatus('Roster cleared.', false); render();
+    roster = []; localStorage.setItem(ROSTER_KEY,'[]'); renderRosterPreview(); setRStatus('Cleared.', false); render();
   }
 }
 
-function setRStatus(msg, isErr) {
+function setRStatus(msg, err) {
   const el = document.getElementById('roster-status');
-  el.textContent = msg; el.style.color = isErr ? 'var(--red)' : 'var(--green)';
+  el.textContent = msg; el.style.color = err ? 'var(--red)' : 'var(--green)';
 }
 
 function renderRosterPreview() {
@@ -593,42 +569,34 @@ function renderRosterPreview() {
 
 /* ── Export ── */
 function exportCSV() {
-  const hasRoster = roster.length > 0;
   const rMap = {};
   roster.forEach(m => { rMap[m.email.toLowerCase()] = m; });
   let rows = [['Name','Email','Status','Time']];
-  if (hasRoster) {
+  if (roster.length) {
     roster.forEach(m => {
-      const att = attendees.find(a => a.email.toLowerCase() === m.email.toLowerCase());
-      rows.push([`"${m.name.replace(/"/g,'""')}"`, `"${m.email}"`, att?'Present':'Absent', att?`"${new Date(att.time).toLocaleString()}"`:'' ]);
+      const att = attendees.find(a => a.email.toLowerCase()===m.email.toLowerCase());
+      rows.push([`"${m.name.replace(/"/g,'""')}"`,`"${m.email}"`, att?'Present':'Absent', att?`"${new Date(att.time).toLocaleString()}"`:'' ]);
     });
     attendees.forEach(a => {
-      if (!rMap[a.email.toLowerCase()]) rows.push([`"${a.name.replace(/"/g,'""')}"`, `"${a.email}"`, 'Present (walk-in)', `"${new Date(a.time).toLocaleString()}"`]);
+      if (!rMap[a.email.toLowerCase()]) rows.push([`"${a.name.replace(/"/g,'""')}"`,`"${a.email}"`, 'Present (walk-in)',`"${new Date(a.time).toLocaleString()}"`]);
     });
   } else {
     if (!attendees.length) { alert('No attendees to export yet.'); return; }
-    attendees.forEach(a => rows.push([`"${a.name.replace(/"/g,'""')}"`, `"${a.email}"`, 'Present', `"${new Date(a.time).toLocaleString()}"`]));
+    attendees.forEach(a => rows.push([`"${a.name.replace(/"/g,'""')}"`,`"${a.email}"`, 'Present',`"${new Date(a.time).toLocaleString()}"`]));
   }
-  const csv  = rows.map(r => r.join(',')).join('\r\n');
-  const blob = new Blob([csv], { type:'text/csv' });
+  const csv  = rows.map(r=>r.join(',')).join('\r\n');
+  const blob = new Blob([csv],{type:'text/csv'});
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href = url; a.download = (meetingName||'attendance').replace(/\s+/g,'-').toLowerCase()+'.csv'; a.click();
+  a.href=url; a.download=(meetingName||'attendance').replace(/\s+/g,'-').toLowerCase()+'.csv'; a.click();
   URL.revokeObjectURL(url);
 }
 
 function confirmReset() {
   if (confirm('Clear all check-in records from the sheet? The roster will not be affected.')) {
-    clearSheet();
+    if (!scriptUrl) return;
+    fetch(scriptUrl + '?action=clear', { cache:'no-store' }).then(() => { attendees=[]; render(); });
   }
-}
-
-async function clearSheet() {
-  if (!scriptUrl) { attendees = []; render(); return; }
-  try {
-    await fetch(scriptUrl, { method:'POST', body: JSON.stringify({ action:'clear' }) });
-    attendees = []; render();
-  } catch(e) { alert('Could not clear — check your connection.'); }
 }
 
 boot();
